@@ -1,0 +1,208 @@
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;700&display=swap");
+@import "variables";
+@import "reset";
+@import "classes";
+@import "media-queries";
+@import "utils";
+@import "base";
+
+.container {
+    min-height: 100vh;
+    display: grid;
+    grid:
+        "header" auto
+        "content" 1fr
+        "footer" auto /
+        auto;
+}
+
+header {
+    padding: 10px;
+    grid-area: header;
+    background: #16a085;
+    height: 50px;
+    //Navbar en large screen appelé en md & xl
+    .toggleCanvas {
+        display: none;
+    }
+    .canvas {
+        display: flex;
+        justify-content: space-between;
+        .canvasClose {
+            display: none;
+        }
+        .logo {
+            display: block;
+            margin: auto 0 auto 0;
+            width: 50px;
+        }
+        ul {
+            display: flex;
+            gap: 10px;
+            li {
+                margin: auto;
+                a {
+                    padding: 5px 50px 5px 50px;
+                    background-color: #16a085;
+                    border: 2px solid var(--primary);
+                    border-radius: 5px;
+                    align-self: center;
+                }
+                a:hover {
+                    border: 2px solid white;
+                    color: white;
+                }
+                a:active {
+                    border: 2px solid var(--primary);
+                }
+            }
+        }
+    }
+    .darkMode {
+        height: 30px;
+        width: 30px;
+        padding: 5px;
+        margin-left: 20px;
+        background-color: #16a085;
+        border: 0px;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        svg {
+            height: 100%;
+            width: 100%;
+        }
+    }
+    .darkMode:hover {
+        border: 2px solid var(--primary);
+        color: var(--primary);
+    }
+    .darkMode:active {
+        border: 2px solid white;
+        color: white;
+    }
+
+    //navbar en small screen
+    @include sm {
+        //button pour afficher le canvas
+        .toggleCanvas {
+            display: block;
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            width: 40px;
+            height: 40px;
+            background-color: #16a085;
+            color: white;
+            border: 0;
+            border-radius: 5px;
+            cursor: pointer;
+            svg {
+                height: 100%;
+                width: 100%;
+            }
+        }
+        .toggleCanvas:hover {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        .toggleCanvas:active {
+            border: 2px solid white;
+            color: white;
+        }
+        .canvas {
+            display: none;
+        }
+        .canvas.show {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #34495e;
+            min-height: 100vh;
+            width: 500px;
+            max-width: 90%;
+            padding: 10px;
+            flex-direction: column;
+            animation: canvasShow 0.5s;
+            .logo {
+                margin: auto;
+                height: 30px;
+            }
+            //button pour cacher le canvas
+            .canvasClose {
+                display: block;
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                width: 40px;
+                height: 40px;
+                background-color: #34495e;
+                color: white;
+                border: 0px solid var(--primary);
+                border-radius: 5px;
+                cursor: pointer;
+                svg {
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+            .canvasClose:hover {
+                border: 2px solid var(--primary);
+                color: var(--primary);
+            }
+            .canvasClose:active {
+                border: 2px solid white;
+                color: white;
+            }
+            ul {
+                margin-top: 20px;
+                gap: 5px;
+                flex: 1;
+                flex-direction: column;
+                li {
+                    margin: 0;
+                    a {
+                        display: block;
+                        background-color: #34495e;
+                        width: 100%;
+                        padding: 15px;
+                        border: 2px solid #34495e;
+                        border-radius: 5px;
+                    }
+                    a:hover {
+                        background-color: var(--primary);
+                    }
+                    a:active {
+                        border: 2px solid white;
+                    }
+                }
+            }
+            .darkMode {
+                background-color: #34495e;
+                margin: 10px;
+            }
+        }
+    }
+
+    @keyframes canvasShow {
+        from {
+            left: -500px;
+        }
+        to {
+            left: 0px;
+        }
+    }
+}
+
+.content {
+    grid-area: content;
+    background: #2c3e50;
+    padding: 20px;
+}
+
+footer {
+    grid-area: footer;
+    background: #16a085;
+    padding: 20px;
+}
