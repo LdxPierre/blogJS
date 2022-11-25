@@ -4,11 +4,51 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Form</title>
+        <title>New post</title>
     </head>
     <body>
         <div class="container">
-            <a href="./index.html">Acceuil</a>
+            <header>
+                <button class="toggleCanvas">
+                    <i class="fa-solid fa-angles-right"></i>
+                </button>
+                <div class="canvas">
+                    <a href="./index.html" class="logo">Logo</a>
+                    <button class="canvasClose">
+                        <i class="fa-solid fa-angles-left"></i>
+                    </button>
+                    <ul class="link">
+                        <li><a href="./index.html">Posts</a></li>
+                        <li><a href="./form.html">New</a></li>
+                    </ul>
+                    <button class="darkMode">
+                        <i class="fa-solid fa-sun"></i>
+                    </button>
+                </div>
+            </header>
+            <div class="content">
+                <form>
+                    <label for="title">Title</label>
+                    <input type="text" id="title" autofocus />
+                    <label for="body">Content</label>
+                    <textarea name="content" id="body" rows="10"></textarea>
+                    <div class="btnForm">
+                        <button type="submit" id="submit">Ajouter</button>
+                        <a href="./index.html">Annuler</a>
+                    </div>
+                </form>
+            </div>
+            <footer>
+                <div class="footer">
+                    <span class="blog2022">Blog 2022</span>
+                    <div class="socialMedia">
+                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                    <span class="qq">Quelque Chose</span>
+                </div>
+            </footer>
         </div>
     </body>
 </html>

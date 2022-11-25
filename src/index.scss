@@ -23,6 +23,9 @@
 .posts {
     margin: auto;
     max-width: 1000px;
+    .deletePost {
+        display: none;
+    }
     .post {
         padding: 15px;
         margin-bottom: 20px;
@@ -49,6 +52,19 @@
         cursor: pointer;
         border: 2px solid var(--primary);
         box-shadow: -10px 10px black;
+        .deletePost {
+            display: block;
+            position: absolute;
+            right: 20px;
+            height: 20px;
+            width: 20px;
+            cursor: pointer;
+            color: red;
+            svg {
+                height: 100%;
+                width: 100%;
+            }
+        }
     }
     .post:active {
         border: 2px solid white;

@@ -9,11 +9,17 @@ const showResult = (data) => {
         const post = document.createElement("div");
         post.setAttribute("class", "post");
         post.innerHTML = `
+        <span class='deletePost'><i class="fa-solid fa-trash-can"></i></span>
         <h2>${d.title}</h2>
         <h3>Auteur : ${d.userId}</h3>
         <p>${d.body}</p>
         <a href="#">Read</a>`;
         posts.append(post);
+        const deleteBtn = document.querySelector(".deletePost");
+        // deleteBtn.addEventListener("click", (event) => {
+        //     event.stopPropagation();
+        //     deletePost(d.id);
+        // });
     });
 };
 
@@ -46,6 +52,19 @@ async function request() {
             toggleSpinner(false);
         }
     }, 2000);
+}
+
+async function deletePost(id) {
+    console.log(id);
+    try {
+        fetch("https://jsonplaceholder.typicode.com/posts/" + id, {
+            method: "DELETE",
+        })
+            .then(() => console.log("delete"))
+            .catch((e) => console.log(e));
+    } catch {
+        console.log("failed");
+    }
 }
 
 request();
