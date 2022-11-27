@@ -13,7 +13,7 @@ textarea.addEventListener("input", () => {
 const submit = document.querySelector("#submit");
 submit.addEventListener("click", (event) => {
     event.preventDefault();
-    createPost();
+    postCheck();
 });
 
 const successPost = () => {
@@ -63,6 +63,17 @@ const errorPost = (e) => {
 
 const closePop = () => {
     document.querySelector(".pop").remove();
+};
+
+const postCheck = () => {
+    const title = document.querySelector("#title").value;
+    const body = document.querySelector("#body").value;
+    const e = "Please enter a title and a content";
+    if (title && body) {
+        createPost();
+    } else {
+        errorPost(e);
+    }
 };
 
 const createPost = () => {

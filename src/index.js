@@ -20,6 +20,9 @@ const showResult = (data) => {
             event.stopPropagation();
             deletePost(d.id);
         });
+        post.addEventListener("click", () => {
+            getPost(d.id);
+        });
         posts.append(post);
         post.append(deleteBtn);
     });
@@ -30,6 +33,7 @@ const showError = (err) => {
 };
 
 const toggleSpinner = (value) => {
+    document.querySelector(".posts").innerHTML = ``;
     if (value === true) {
         const content = document.querySelector(".content");
         const spinner = document.createElement("span");
@@ -43,17 +47,15 @@ const toggleSpinner = (value) => {
 
 async function request() {
     toggleSpinner(true);
-    setTimeout(() => {
-        try {
-            fetch("https://jsonplaceholder.typicode.com/posts")
-                .then((response) => response.json())
-                .then((json) => showResult(json.reverse()));
-        } catch (e) {
-            showError(e);
-        } finally {
-            toggleSpinner(false);
-        }
-    }, 2000);
+    try {
+        fetch("https://jsonplaceholder.typicode.com/posts")
+            .then((response) => response.json())
+            .then((json) => showResult(json.reverse()));
+    } catch (e) {
+        showError(e);
+    } finally {
+        toggleSpinner(false);
+    }
 }
 
 async function deletePost(id) {
@@ -67,5 +69,33 @@ async function deletePost(id) {
         console.log("failed");
     }
 }
+
+const getPost = (id) => {
+    const post = fetch("https://jsonplaceholder.typicode.com/posts/" + id)
+        .then((response) => response.json())
+        .then((json) => togglePost(json))
+        .catch((e) => console.log(e));
+};
+
+const togglePost = (p) => {
+    const posts = document.querySelector(".posts");
+    posts.innerHTML = `
+    <ul>
+        <li>${p.id}</li>
+        <li>${p.title}</li>
+        <li>${p.userId}</li>
+        <li>${p.body}</li>
+    </ul>
+    `;
+    const returnToPostsBtn = document.createElement("button");
+    returnToPostsBtn.setAttribute("class", "btn");
+    returnToPostsBtn.addEventListener("click", () => {
+        returnToPosts();
+    });
+    posts.append(returnToPostsBtn);
+    const returnToPosts = () => {
+        request();
+    };
+};
 
 request();
