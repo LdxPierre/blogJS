@@ -70,3 +70,15 @@
         border: 2px solid white;
     }
 }
+.btn {
+    padding: 5px 10px 5px 10px;
+    background-color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 5px;
+    margin: 10px 0 10px 0;
+    cursor: pointer;
+    color: white;
+}
+.btn:active {
+    border: 2px solid white;
+}

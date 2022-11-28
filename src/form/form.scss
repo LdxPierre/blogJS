@@ -32,13 +32,14 @@ form {
             color: white;
             font-size: 1.6rem;
             cursor: pointer;
+            &:hover {
+                border: 2px solid var(--primary);
+            }
+            &:active {
+                border: 2px solid white;
+            }
         }
-        button:hover {
-            border: 2px solid var(--primary);
-        }
-        button:active {
-            border: 2px solid white;
-        }
+
         a {
             padding: 5px 10px 5px 10px;
             border: 2px solid #16a085;
@@ -46,72 +47,12 @@ form {
             background-color: #16a085;
             color: white;
             cursor: pointer;
-        }
-        a:hover {
-            border-color: var(--primary);
-        }
-        a:active {
-            border-color: white;
-        }
-    }
-}
-.pop {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    top: 60px;
-    left: 0px;
-    width: 100%;
-    animation: togglePop 0.1s;
-    .popSuccess {
-        padding: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        background-color: var(--primary);
-        border: 1px solid white;
-        border-radius: 5px;
-        .ico {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 20px;
-            width: 20px;
-            border: 1px solid white;
-            border-radius: 50px;
-        }
-    }
-    .popError {
-        padding: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 15px;
-        background-color: rgb(211, 14, 14);
-        border: 1px solid white;
-        border-radius: 5px;
-        .ico {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 20px;
-            width: 20px;
-            border: 1px solid white;
-            border-radius: 50px;
-        }
-        .popClose {
-            padding: 2px;
-            cursor: pointer;
-            color: grey;
-        }
-    }
-    @keyframes togglePop {
-        from {
-            top: 50px;
-        }
-        to {
-            top: 60px;
+            &:hover {
+                border-color: var(--primary);
+            }
+            &:active {
+                border-color: white;
+            }
         }
     }
 }

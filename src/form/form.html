@@ -29,12 +29,13 @@
             <div class="content">
                 <form>
                     <label for="title">Title</label>
-                    <input type="text" id="title" autofocus />
+                    <input type="text" id="title" name="title" autofocus />
                     <label for="body">Content</label>
-                    <textarea name="content" id="body" rows="10"></textarea>
+                    <textarea name="content" id="body"></textarea>
+                    <ul class="errors"></ul>
                     <div class="btnForm">
-                        <button type="submit" id="submit">Ajouter</button>
                         <a href="./index.html">Annuler</a>
+                        <button type="submit" id="submit">Ajouter</button>
                     </div>
                 </form>
             </div>
