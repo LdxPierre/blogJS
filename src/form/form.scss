@@ -1,58 +1,45 @@
 form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+    display: grid;
+    gap: 10px;
     max-width: 1000px;
-    margin: 0 auto 0 auto;
-    #title {
-        margin: 0 0 10px 0;
+    margin: auto;
+    .formInput {
         padding: 5px;
-        border: 0;
+        margin-top: 5px;
+        width: 100%;
+        border: 1px solid grey;
         border-radius: 5px;
-        background-color: #f8f8f8;
     }
-    #body {
-        min-height: 50px;
-        padding: 5px;
-        border: 0;
-        border-radius: 5px;
-        resize: none;
-        background-color: #f8f8f8;
-        overflow: hidden;
+    .invalid {
+        border: 1px solid var(--danger);
     }
-    .btnForm {
-        display: flex;
-        margin: 10px 0 0 0;
-        gap: 10px;
-        button {
-            padding: 5px 10px 5px 10px;
-            border: 2px solid #16a085;
-            border-radius: 5px;
-            background-color: #16a085;
-            color: white;
-            font-size: 1.6rem;
-            cursor: pointer;
-            &:hover {
-                border: 2px solid var(--primary);
-            }
-            &:active {
-                border: 2px solid white;
-            }
+    .formTitle {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    .formCategory {
+        grid-column: 2;
+        grid-row: 1;
+    }
+    .formAuthor {
+        grid-column: 1;
+        grid-row: 2;
+    }
+    .formAuthorImg {
+        grid-column: 2;
+        grid-row: 2;
+    }
+    .formContent {
+        grid-column: 1 / span 2;
+        textarea {
+            height: 200px;
+            resize: none;
         }
-
-        a {
-            padding: 5px 10px 5px 10px;
-            border: 2px solid #16a085;
-            border-radius: 5px;
-            background-color: #16a085;
-            color: white;
-            cursor: pointer;
-            &:hover {
-                border-color: var(--primary);
-            }
-            &:active {
-                border-color: white;
-            }
-        }
+    }
+    .errors {
+        grid-column: 1 / span 2;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--danger);
     }
 }

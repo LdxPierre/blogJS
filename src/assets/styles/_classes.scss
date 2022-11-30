@@ -1,0 +1,40 @@
+a.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn {
+    padding: 7px 15px;
+    border: 0;
+    border-radius: 3px;
+    background-color: var(--primary);
+    color: var(--light);
+    cursor: pointer;
+    font-size: 1.5rem;
+    height: auto;
+    &:active {
+        background-color: var(--secondary);
+    }
+    &-danger {
+        background-color: var(--danger);
+        color: var(--light);
+        &:active {
+            background-color: var(--danger-secondary);
+        }
+    }
+    &-blue {
+        background-color: var(--blue);
+        color: var(--light);
+        &:active {
+            background-color: var(--blue-secondary);
+        }
+    }
+    &-sm {
+        font-size: 1rem;
+        padding: 5px 10px;
+    }
+    &-lg {
+        font-size: 2rem;
+        padding: 10px 20px;
+    }
+}

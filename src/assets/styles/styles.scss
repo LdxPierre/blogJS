@@ -19,7 +19,7 @@
 header {
     padding: 10px;
     grid-area: header;
-    background: #16a085;
+    background: var(--primary);
     height: 50px;
     //Navbar en large screen appelé en md & xl
     .toggleCanvas {
@@ -32,8 +32,9 @@ header {
             display: none;
         }
         .logo {
+            color: var(--text-light);
             display: block;
-            margin: auto 0 auto 0;
+            margin: auto 0;
             width: 50px;
         }
         ul {
@@ -42,18 +43,19 @@ header {
             li {
                 margin: auto;
                 a {
+                    font-weight: 700;
+                    color: var(--text-light);
                     padding: 5px 50px 5px 50px;
-                    background-color: #16a085;
                     border: 2px solid var(--primary);
                     border-radius: 5px;
                     align-self: center;
-                }
-                a:hover {
-                    border: 2px solid white;
-                    color: white;
-                }
-                a:active {
-                    border: 2px solid var(--primary);
+                    &:hover {
+                        border: 2px solid var(--light);
+                    }
+                    &:active {
+                        border: 2px solid var(--success);
+                        color: var(--success);
+                    }
                 }
             }
         }
@@ -63,23 +65,23 @@ header {
         width: 30px;
         padding: 5px;
         margin-left: 20px;
-        background-color: #16a085;
+        background-color: var(--primary);
         border: 0px;
         border-radius: 5px;
-        color: white;
+        color: var(--text-light);
         cursor: pointer;
         svg {
             height: 100%;
             width: 100%;
         }
-    }
-    .darkMode:hover {
-        border: 2px solid var(--primary);
-        color: var(--primary);
-    }
-    .darkMode:active {
-        border: 2px solid white;
-        color: white;
+        &:hover {
+            border: 2px solid var(--light);
+            color: var(--light);
+        }
+        &:active {
+            border: 2px solid var(--success);
+            color: var(--success);
+        }
     }
 
     //navbar en small screen
@@ -92,8 +94,8 @@ header {
             top: 5px;
             width: 40px;
             height: 40px;
-            background-color: #16a085;
-            color: white;
+            background-color: var(--primary);
+            color: var(--text-light);
             border: 0;
             border-radius: 5px;
             cursor: pointer;
@@ -101,86 +103,89 @@ header {
                 height: 100%;
                 width: 100%;
             }
+            &:hover {
+                border: 2px solid var(--light);
+                color: var(--light);
+            }
+            &:active {
+                border: 2px solid var(--success);
+                color: var(--success);
+            }
         }
-        .toggleCanvas:hover {
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-        .toggleCanvas:active {
-            border: 2px solid white;
-            color: white;
-        }
+
         .canvas {
             display: none;
-        }
-        .canvas.show {
-            display: flex;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: #34495e;
-            min-height: 100vh;
-            width: 500px;
-            max-width: 90%;
-            padding: 10px;
-            flex-direction: column;
-            animation: canvasShow 0.5s;
-            .logo {
-                margin: auto;
-                height: 30px;
-            }
-            //button pour cacher le canvas
-            .canvasClose {
-                display: block;
+            &.show {
+                display: flex;
                 position: absolute;
-                top: 5px;
-                right: 5px;
-                width: 40px;
-                height: 40px;
-                background-color: #34495e;
-                color: white;
-                border: 0px solid var(--primary);
-                border-radius: 5px;
-                cursor: pointer;
-                svg {
-                    height: 100%;
-                    width: 100%;
-                }
-            }
-            .canvasClose:hover {
-                border: 2px solid var(--primary);
-                color: var(--primary);
-            }
-            .canvasClose:active {
-                border: 2px solid white;
-                color: white;
-            }
-            ul {
-                margin-top: 20px;
-                gap: 5px;
-                flex: 1;
+                top: 0;
+                left: 0;
+                background-color: var(--secondary);
+                min-height: 100vh;
+                width: 500px;
+                max-width: 90%;
+                padding: 10px;
                 flex-direction: column;
-                li {
-                    margin: 0;
-                    a {
-                        display: block;
-                        background-color: #34495e;
+                animation: canvasShow 0.5s;
+                .logo {
+                    margin: auto;
+                    height: 30px;
+                }
+                //button pour cacher le canvas
+                .canvasClose {
+                    display: block;
+                    position: absolute;
+                    top: 5px;
+                    right: 5px;
+                    width: 40px;
+                    height: 40px;
+                    background-color: var(--secondary);
+                    color: white;
+                    border: 0px solid var(--light);
+                    border-radius: 5px;
+                    cursor: pointer;
+                    svg {
+                        height: 100%;
                         width: 100%;
-                        padding: 15px;
-                        border: 2px solid #34495e;
-                        border-radius: 5px;
                     }
-                    a:hover {
-                        background-color: var(--primary);
+                    &:hover {
+                        border: 2px solid var(--light);
+                        color: var(--light);
                     }
-                    a:active {
-                        border: 2px solid white;
+                    &:active {
+                        border: 2px solid var(--success);
+                        color: var(--success);
                     }
                 }
-            }
-            .darkMode {
-                background-color: #34495e;
-                margin: 10px;
+
+                ul {
+                    margin-top: 20px;
+                    gap: 5px;
+                    flex: 1;
+                    flex-direction: column;
+                    li {
+                        margin: 0;
+                        a {
+                            display: block;
+                            background-color: var(--secondary);
+                            width: 100%;
+                            padding: 15px;
+                            border: 2px solid var(--secondary);
+                            border-radius: 5px;
+                            &:hover {
+                                border: 2px solid var(--light);
+                            }
+                            &:active {
+                                border: 2px solid var(--success);
+                                color: var(--text-light);
+                            }
+                        }
+                    }
+                }
+                .darkMode {
+                    background-color: var(--secondary);
+                    margin: 10px;
+                }
             }
         }
     }
@@ -197,13 +202,13 @@ header {
 
 .content {
     grid-area: content;
-    background: #2c3e50;
+    background: var(--light);
     padding: 20px;
 }
 
 footer {
     grid-area: footer;
-    background: #16a085;
+    background: var(--primary);
     padding: 10px;
     .footer {
         display: flex;
@@ -212,6 +217,7 @@ footer {
         span {
             width: 200px;
         }
+        color: var(--text-light);
         .socialMedia {
             flex: 1;
             display: flex;
@@ -221,20 +227,21 @@ footer {
                 width: 40px;
                 height: 40px;
                 padding: 5px;
-                border: 2px solid #16a085;
+                border: 2px solid var(--primary);
                 border-radius: 5px;
+                color: var(--text-light);
                 svg {
                     height: 100%;
                     width: 100%;
                 }
-            }
-            a:hover {
-                border: 2px solid var(--primary);
-                color: var(--primary);
-            }
-            a:active {
-                border: 2px solid white;
-                color: white;
+                &:hover {
+                    border: 2px solid var(--light);
+                    color: var(--light);
+                }
+                &:active {
+                    border: 2px solid var(--success);
+                    color: var(--success);
+                }
             }
         }
         span.qq {

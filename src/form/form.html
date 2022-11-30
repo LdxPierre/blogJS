@@ -28,14 +28,65 @@
             </header>
             <div class="content">
                 <form>
-                    <label for="title">Title</label>
-                    <input type="text" id="title" name="title" autofocus />
-                    <label for="body">Content</label>
-                    <textarea name="content" id="body"></textarea>
-                    <ul class="errors"></ul>
-                    <div class="btnForm">
-                        <a href="./index.html">Annuler</a>
-                        <button type="submit" id="submit">Ajouter</button>
+                    <div class="formTitle">
+                        <label class="formLabel" for="title">Title</label>
+                        <input
+                            class="formInput"
+                            type="text"
+                            id="title"
+                            name="title"
+                            autofocus
+                        />
+                    </div>
+
+                    <div class="formCategory">
+                        <label class="formLabel" for="category">Category</label>
+                        <input
+                            class="formInput"
+                            type="text"
+                            id="category"
+                            name="category"
+                        />
+                    </div>
+
+                    <div class="formAuthor">
+                        <label class="formLabel" for="author">Author</label>
+                        <input
+                            class="formInput"
+                            type="text"
+                            id="author"
+                            name="author"
+                        />
+                    </div>
+
+                    <div class="formAuthorImg">
+                        <label class="formLabel" for="author">Author's image</label>
+                        <input
+                            class="formInput"
+                            type="text"
+                            id="authorImg"
+                            name="authorImg"
+                        />
+                    </div>
+
+                    <div class="formContent">
+                        <label class="formLabel" for="body">Content</label>
+                        <textarea class='formInput' name="content" id="body"></textarea>
+                    </div>
+
+                    <ul class="errors">
+                    </ul>
+
+                    <div class="formBtn">
+                        <button type="button" class="btn btn-danger">
+                            Annuler
+                        </button>
+                        <input
+                            type="submit"
+                            id="submit"
+                            class="btn"
+                        >
+                        </input>
                     </div>
                 </form>
             </div>

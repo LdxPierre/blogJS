@@ -136,16 +136,21 @@ const createComment = (c) => {
     return li;
 };
 
-// const toggleSpinner = (value) => {
-//     if (value === true) {
-//         const contentNode = document.querySelector(".content");
-//         const spinnerNode = document.createElement("span");
-//         spinnerNode.setAttribute("class", "spinner");
-//         spinnerNode.innerHTML = `<i class="fa-solid fa-gear"></i>`;
-//         contentNode.append(spinnerNode);
-//     } else {
-//         document.querySelector(".spinner").remove();
-//     }
-// };
+//readBtn animation
+const readBtn = document.querySelector(".btn-read");
+readBtn.addEventListener("mouseenter", () => {
+    readBtnAnimation(true);
+});
+readBtn.addEventListener("mouseleave", () => {
+    readBtnAnimation(false);
+});
 
-getPosts();
+const readBtnAnimation = (bool) => {
+    if (bool) {
+        readBtn.innerHTML = `
+    Read<i class="fa-solid fa-angles-right"></i>
+    `;
+    } else {
+        readBtn.innerHTML = `Read`;
+    }
+};
