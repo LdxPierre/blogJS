@@ -2,30 +2,16 @@ import "./index.scss";
 import "./assets/styles/styles.scss";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
+import * as popUp from "./assets/javascript/popup.js";
 
 const contentNode = document.querySelector(".content");
 
 //show all posts
 const getPosts = async () => {
     try {
-        const response = await fetch(
-            "https://jsonplaceholder.typicode.com/posts"
-        );
+        const response = await fetch("https://restapi.fr/api/ormide/");
         const body = await response.json();
         showPosts(body);
-    } catch (e) {
-        console.error(e);
-    }
-};
-
-//show post[id]
-const getPost = async (id) => {
-    try {
-        const response = await fetch(
-            `https://jsonplaceholder.typicode.com/posts/${id}`
-        );
-        const body = await response.json();
-        showPost(body);
     } catch (e) {
         console.error(e);
     }
@@ -34,27 +20,13 @@ const getPost = async (id) => {
 //delete post[id]
 const deletePost = async (id) => {
     try {
-        const response = await fetch(
-            `https://jsonplaceholder.typicode.com/posts/${id}`,
-            {
-                method: "DELETE",
-            }
-        );
-        const body = await response.json();
+        const response = await fetch(`https://restapi.fr/api/ormide/${id}`, {
+            method: "DELETE",
+        });
+        const body = response.json();
         console.log("delete article : " + body);
-    } catch (e) {
-        console.error(e);
-    }
-};
-
-//show post[id]/Comments
-const getComments = async (id) => {
-    try {
-        const response = await fetch(
-            `https://jsonplaceholder.typicode.com/posts/${id}/comments`
-        );
-        const body = await response.json();
-        showComments(body);
+        getPosts();
+        popUp.showPopUp("success", "Article has been deleted");
     } catch (e) {
         console.error(e);
     }
@@ -62,95 +34,55 @@ const getComments = async (id) => {
 
 const showPosts = (posts) => {
     contentNode.innerHTML = ``;
-    const postsNode = document.createElement("div");
-    postsNode.setAttribute("class", "posts");
-    posts.forEach((p) => {
-        const post = createPost(p);
-        postsNode.append(post);
-    });
-    contentNode.append(postsNode);
+    const articlesNode = document.createElement("div");
+    articlesNode.classList.add("articles");
+    //if data
+    if (posts.length != 0) {
+        //if multiple data
+        if (posts.length > 0) {
+            posts.map((p) => {
+                const post = createPost(p);
+                articlesNode.append(post);
+            });
+            //if only one data, no array to iterate with .map
+        } else {
+            const post = createPost(posts);
+            articlesNode.append(post);
+        }
+    } else {
+        //method to create a no data indicator
+        console.log("no data to show");
+    }
+    contentNode.append(articlesNode);
 };
 
 const createPost = (p) => {
-    //post
+    //title, cat, content
     const postNode = document.createElement("div");
-    postNode.setAttribute("class", "post");
-    postNode.innerHTML = `
-    <h2>${p.title}</h2>
-    <h3>Auteur : ${p.userId}</h3>
-    <p>${p.body}</p>
-    <a href="#">Read</a>`;
-    postNode.addEventListener("click", () => {
-        getPost(p.id);
+    postNode.classList.add("article");
+    postNode.innerHTML = `<h2 class="articleTitle">${p.title}</h2>
+        <h4 class="articleCategory">${p.category}</h4>
+        <p class="articleContent">${p.content}</p>`;
+    //author, date, btn
+    const articlesInfosNode = document.createElement("div");
+    articlesInfosNode.classList.add("articleInfos");
+    articlesInfosNode.innerHTML = `
+            <img class="articleAuthorImg" src="${p.authorImg}" alt="${p.author}"/>
+            <h5 class="articleDate">${p.date}</h5>
+            <h4 class="articleAuthor">${p.author}</h4>
+            <a href="#" class="btn btn-read">Read</a>
+            <a href="#" class="btn btn-blue btn-edit">Edit</a>`;
+    postNode.append(articlesInfosNode);
+    //btnDelete
+    const btnDelete = document.createElement("button");
+    btnDelete.setAttribute("class", "btn btn-danger btn-delete");
+    btnDelete.innerHTML = `Delete`;
+    btnDelete.addEventListener("click", () => {
+        deletePost(p._id);
     });
-    //button delete
-    const deleteBtn = document.createElement("span");
-    deleteBtn.setAttribute("class", "deletePost");
-    deleteBtn.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
-    deleteBtn.addEventListener("click", (event) => {
-        event.stopPropagation();
-        deletePost(p.id);
-    });
-    postNode.append(deleteBtn);
+    articlesInfosNode.append(btnDelete);
 
     return postNode;
 };
 
-const showPost = (p) => {
-    contentNode.innerHTML = ``;
-    const returnToPostsBtn = document.createElement("button");
-    returnToPostsBtn.innerHTML = `Back`;
-    returnToPostsBtn.setAttribute("class", "btn");
-    returnToPostsBtn.addEventListener("click", () => {
-        getPosts();
-    });
-    const postNode = document.createElement("div");
-    postNode.setAttribute("class", "post");
-    postNode.innerHTML = `
-    <span>id : ${p.id}</span>
-    <span>Author : ${p.userId}</span>
-    <span>Title : ${p.title}</span>
-    <span>Body : ${p.body}</span>
-    `;
-    contentNode.append(returnToPostsBtn, postNode);
-    getComments(p.id);
-};
-
-const showComments = (comments) => {
-    const ul = document.createElement("ul");
-    comments.forEach((c) => {
-        const li = createComment(c);
-        ul.append(li);
-    });
-    document.querySelector(".post").after(ul);
-};
-
-const createComment = (c) => {
-    const li = document.createElement("li");
-    li.innerHTML = `
-    <span>id : ${c.id}</span>
-    <span>name : ${c.name}</span>
-    <span>email : ${c.email}</span>
-    <span>body : ${c.body}</span>
-    `;
-    return li;
-};
-
-//readBtn animation
-const readBtn = document.querySelector(".btn-read");
-readBtn.addEventListener("mouseenter", () => {
-    readBtnAnimation(true);
-});
-readBtn.addEventListener("mouseleave", () => {
-    readBtnAnimation(false);
-});
-
-const readBtnAnimation = (bool) => {
-    if (bool) {
-        readBtn.innerHTML = `
-    Read<i class="fa-solid fa-angles-right"></i>
-    `;
-    } else {
-        readBtn.innerHTML = `Read`;
-    }
-};
+getPosts();

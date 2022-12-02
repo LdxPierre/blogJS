@@ -38,3 +38,74 @@ a.btn {
         padding: 10px 20px;
     }
 }
+.popUp {
+    display: flex;
+    justify-content: center;
+    div {
+        position: absolute;
+        top: 70px;
+        display: flex;
+        align-items: center;
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 15px;
+        gap: 10px;
+        animation: PopUp-show 0.4s;
+    }
+    &-success {
+        background-color: var(--success);
+    }
+    &-danger {
+        background-color: var(--danger);
+    }
+    &-ico {
+        height: 25px;
+        width: 25px;
+        border: 1px solid black;
+        border-radius: 13px;
+        padding: 3px;
+        svg {
+            height: 100%;
+            width: 100%;
+        }
+    }
+    &-close {
+        height: 25px;
+        width: 25px;
+        padding: 4px;
+        cursor: pointer;
+        svg {
+            height: 100%;
+            width: 100%;
+        }
+        &:hover {
+            border: 1px solid black;
+            border-radius: 13px;
+            padding: 3px;
+            svg {
+                color: var(--light);
+            }
+        }
+        &:active {
+            border: 1px solid var(--light);
+        }
+    }
+    &.remove {
+        animation: PopUp-remove 0.2s;
+    }
+    @keyframes PopUp-show {
+        from {
+            opacity: 0;
+            top: 50px;
+        }
+        to {
+            opacity: 100%;
+            top: 70px;
+        }
+    }
+    @keyframes PopUp-remove {
+        to {
+            opacity: 0;
+        }
+    }
+}
