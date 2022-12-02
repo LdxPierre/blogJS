@@ -57,6 +57,8 @@ const showPosts = (posts) => {
 };
 
 const createPost = (p) => {
+    const date = new Date("2022-12-02T09:54:50.478Z");
+    const dateIso = date.toLocaleString();
     //title, cat, content
     const postNode = document.createElement("div");
     postNode.classList.add("article");
@@ -68,7 +70,7 @@ const createPost = (p) => {
     articlesInfosNode.classList.add("articleInfos");
     articlesInfosNode.innerHTML = `
             <img class="articleAuthorImg" src="${p.authorImg}" alt="${p.author}"/>
-            <h5 class="articleDate">${p.date}</h5>
+            <h5 class="articleDate">${dateIso}</h5>
             <h4 class="articleAuthor">${p.author}</h4>
             <a href="#" class="btn btn-read">Read</a>
             <a href="#" class="btn btn-blue btn-edit">Edit</a>`;

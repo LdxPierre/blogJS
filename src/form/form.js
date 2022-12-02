@@ -2,11 +2,25 @@ import "./form.scss";
 import "../assets/styles/styles.scss";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
-import * as popUp from "../assets/javascript/popup.js";
 
 const form = document.querySelector("form");
 
 let errors = [];
+
+// const getArticle = async (id) => {
+//     try {
+//         const response = await fetch(`https://restapi.fr/api/ormide/${id}`);
+//         const body = await response.json();
+//         articleToForm(body);
+//         console.log(body);
+//     } catch (e) {
+//         console.log(e);
+//     }
+// };
+
+// const articleToForm = (obj) => {
+//     //autocomplete form with data
+// };
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -15,7 +29,6 @@ form.addEventListener("submit", (event) => {
     if (formIsValid(obj)) {
         postArticle(obj);
     } else {
-        popUp.showPopUp("danger", "All field are not completed");
         errors.push("All inputs are not completed");
         showErrors();
     }
@@ -36,7 +49,6 @@ const formIsValid = (form) => {
 
 async function postArticle(obj) {
     try {
-        obj.date = new Date().toLocaleDateString();
         const article = JSON.stringify(obj);
         await fetch("https://restapi.fr/api/ormide/", {
             method: "POST",
@@ -44,15 +56,26 @@ async function postArticle(obj) {
             headers: {
                 "content-type": "application/json",
             },
-        })
-            .then(() => (window.location.href = "./index.html"))
-            .then(() => {
-                popUp.showPopUp("success", "GG");
-            });
+        }).then(() => (window.location.href = "./index.html"));
     } catch (e) {
         console.log(e);
     }
 }
+
+// const patchArticle = async (id, obj) => {
+//     try {
+//         const article = JSON.stringify(obj);
+//         await fetch(`https://restapi.fr/api/ormide/${id}`, {
+//             method: "PATCH",
+//             body: article,
+//             headers: {
+//                 "content-type": "application/json",
+//             },
+//         }).then(() => console.log("Patch"));
+//     } catch (e) {
+//         console.log(e);
+//     }
+// };
 
 const showErrors = () => {
     const errorsNode = document.querySelector(".errors");
