@@ -4,35 +4,27 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 
 const form = document.querySelector("form");
+const params = new URL(document.location).searchParams;
 
 let errors = [];
 
-// const getArticle = async (id) => {
-//     try {
-//         const response = await fetch(`https://restapi.fr/api/ormide/${id}`);
-//         const body = await response.json();
-//         articleToForm(body);
-//         console.log(body);
-//     } catch (e) {
-//         console.log(e);
-//     }
-// };
-
-// const articleToForm = (obj) => {
-//     //autocomplete form with data
-// };
-
-form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const formData = new FormData(form);
-    const obj = Object.fromEntries(formData.entries());
-    if (formIsValid(obj)) {
-        postArticle(obj);
-    } else {
-        errors.push("All inputs are not completed");
-        showErrors();
+const getArticle = async (id) => {
+    try {
+        const response = await fetch(`https://restapi.fr/api/ormide/${id}`);
+        const body = await response.json();
+        articleToForm(body);
+    } catch (e) {
+        console.log(e);
     }
-});
+};
+
+const articleToForm = (obj) => {
+    form.querySelector("#title").value = obj.title;
+    form.querySelector("#category").value = obj.category;
+    form.querySelector("#author").value = obj.author;
+    form.querySelector("#authorImg").value = obj.authorImg;
+    form.querySelector("#body").value = obj.content;
+};
 
 const formIsValid = (form) => {
     errors = [];
@@ -47,36 +39,31 @@ const formIsValid = (form) => {
     }
 };
 
-async function postArticle(obj) {
+const ajaxArticle = async (obj, method) => {
     try {
+        let url;
+        const id = params.get("id");
         const article = JSON.stringify(obj);
-        await fetch("https://restapi.fr/api/ormide/", {
-            method: "POST",
+        let popUpMessage;
+        id
+            ? (url = `https://restapi.fr/api/ormide/${id}`)
+            : (url = `https://restapi.fr/api/ormide/`);
+        const response = await fetch(url, {
+            method: method,
             body: article,
             headers: {
                 "content-type": "application/json",
             },
-        }).then(() => (window.location.href = "./index.html"));
+        });
+        const body = await response.json();
+        id ? (popUpMessage = "edit") : (popUpMessage = "create");
+        window.location.href = `./index.html?p=${popUpMessage}`;
     } catch (e) {
         console.log(e);
     }
-}
+};
 
-// const patchArticle = async (id, obj) => {
-//     try {
-//         const article = JSON.stringify(obj);
-//         await fetch(`https://restapi.fr/api/ormide/${id}`, {
-//             method: "PATCH",
-//             body: article,
-//             headers: {
-//                 "content-type": "application/json",
-//             },
-//         }).then(() => console.log("Patch"));
-//     } catch (e) {
-//         console.log(e);
-//     }
-// };
-
+//show array of errors
 const showErrors = () => {
     const errorsNode = document.querySelector(".errors");
     errorsNode.innerHTML = ``;
@@ -86,3 +73,21 @@ const showErrors = () => {
         errorsNode.append(li);
     });
 };
+
+//autocomplete form
+if (params.has("id")) {
+    getArticle(params.get("id"));
+}
+
+//submit patch if params else post
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const obj = Object.fromEntries(formData.entries());
+    if (formIsValid(obj)) {
+        params.has("id") ? ajaxArticle(obj, "PATCH") : ajaxArticle(obj, "POST");
+    } else {
+        errors.push("All inputs are not completed");
+        showErrors();
+    }
+});

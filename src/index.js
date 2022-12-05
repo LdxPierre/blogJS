@@ -4,6 +4,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import * as popUp from "./assets/javascript/popup.js";
 
+const params = new URL(document.location).searchParams;
 const contentNode = document.querySelector(".content");
 
 //show all posts
@@ -57,7 +58,7 @@ const showPosts = (posts) => {
 };
 
 const createPost = (p) => {
-    const date = new Date("2022-12-02T09:54:50.478Z");
+    const date = new Date(p.createdAt);
     const dateIso = date.toLocaleString();
     //title, cat, content
     const postNode = document.createElement("div");
@@ -72,8 +73,8 @@ const createPost = (p) => {
             <img class="articleAuthorImg" src="${p.authorImg}" alt="${p.author}"/>
             <h5 class="articleDate">${dateIso}</h5>
             <h4 class="articleAuthor">${p.author}</h4>
-            <a href="#" class="btn btn-read">Read</a>
-            <a href="#" class="btn btn-blue btn-edit">Edit</a>`;
+            <button class='btn btn-read'>Read</button>
+            `;
     postNode.append(articlesInfosNode);
     //btnDelete
     const btnDelete = document.createElement("button");
@@ -82,9 +83,22 @@ const createPost = (p) => {
     btnDelete.addEventListener("click", () => {
         deletePost(p._id);
     });
-    articlesInfosNode.append(btnDelete);
+    //editBtn
+    const btnEdit = document.createElement("a");
+    btnEdit.setAttribute("class", "btn btn-blue btn-edit");
+    btnEdit.setAttribute("href", `./form.html?id=${p._id}`);
+    btnEdit.innerHTML = "Edit";
+
+    articlesInfosNode.append(btnEdit, btnDelete);
 
     return postNode;
 };
 
 getPosts();
+
+//Show popUp (must be improved)
+if (params.get("p") == "create") {
+    popUp.showPopUp("success", "Article has been added");
+} else if (params.get("p") == "edit") {
+    popUp.showPopUp("success", "Article has been updated");
+}
