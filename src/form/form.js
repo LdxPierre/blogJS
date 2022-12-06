@@ -29,6 +29,7 @@ const articleToForm = (obj) => {
 const formIsValid = (form) => {
     errors = [];
     if (!form.title || !form.content || !form.category || !form.author) {
+        invalidCheck(form);
         return false;
     } else {
         if (!form.authorImg) {

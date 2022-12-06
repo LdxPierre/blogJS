@@ -1,3 +1,54 @@
+.filters {
+    max-width: 1000px;
+    margin: 0 auto 10px auto;
+    .filter-select {
+        display: flex;
+        justify-content: center;
+        .sort-date {
+            background-color: var(--primary);
+            border-radius: 5px 0 0 5px;
+            border: 1px solid black;
+            color: var(--light);
+            padding: 10px 15px;
+            cursor: pointer;
+            &:active {
+                background-color: var(--secondary);
+            }
+        }
+        .filter-category {
+            background-color: var(--primary);
+            border-radius: 0 5px 5px 0;
+            border: 1px solid black;
+            border-left: 0px solid black;
+            color: var(--light);
+            padding: 10px 15px;
+            cursor: pointer;
+            &:active {
+                background-color: var(--secondary);
+            }
+        }
+    }
+    .category-list {
+        margin-top: 20px;
+        display: none;
+        justify-content: center;
+        label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background-color: var(--primary);
+            color: var(--light);
+            cursor: pointer;
+            &:active {
+                background-color: var(--secondary);
+            }
+        }
+        &.show {
+            display: flex;
+        }
+    }
+}
 .articles {
     display: flex;
     flex-direction: column;

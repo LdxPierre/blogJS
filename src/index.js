@@ -6,11 +6,22 @@ import * as popUp from "./assets/javascript/popup.js";
 
 const params = new URL(document.location).searchParams;
 const contentNode = document.querySelector(".content");
+let filtersArray = [];
+let sort = "desc";
 
 //show all posts
 const getPosts = async () => {
+    let url = new URL("https://restapi.fr/api/ormide/");
+    if (filtersArray != 0) {
+        filtersArray.forEach((f) => {
+            url.searchParams.append("category", f);
+        });
+    }
+    sort == "asc"
+        ? url.searchParams.append("sort", "createdAt:asc")
+        : url.searchParams.append("sort", "createdAt:desc");
     try {
-        const response = await fetch("https://restapi.fr/api/ormide/");
+        const response = await fetch(url);
         const body = await response.json();
         showPosts(body);
     } catch (e) {
@@ -25,7 +36,6 @@ const deletePost = async (id) => {
             method: "DELETE",
         });
         const body = response.json();
-        console.log("delete article : " + body);
         getPosts();
         popUp.showPopUp("success", "Article has been deleted");
     } catch (e) {
@@ -33,10 +43,76 @@ const deletePost = async (id) => {
     }
 };
 
+const showFilters = () => {
+    const filtersNode = document.createElement("div");
+    filtersNode.classList.add("filters");
+    filtersNode.innerHTML = `
+        <div class="filter-select">
+            <span class="sort-date">Sort by Date</span>
+            <span class="filter-category">Filter by Category</span>
+        </div>
+        <div class="category-list">
+            <label for="catA">
+                Category A
+                <input type="checkbox" name="catA" id="catA" value="A"/>
+            </label>
+            <label for="catB">
+                Category B
+                <input type="checkbox" name="catB" id="catB" value="B"/>
+            </label>
+            <label for="catC">
+                Category C
+                <input type="checkbox" name="catC" id="catC" value="C"/>
+            </label>
+            <label for="catD">
+                Category D
+                <input type="checkbox" name="catD" id="catD" value="D"/>
+            </label>
+        </div>
+    `;
+    contentNode.prepend(filtersNode);
+
+    filtersNode
+        .querySelector(".filter-category")
+        .addEventListener("click", () => {
+            const categoryListNode = document.querySelector(".category-list");
+            const show = categoryListNode.classList.contains("show");
+            show
+                ? categoryListNode.classList.remove("show")
+                : categoryListNode.classList.add("show");
+        });
+    sortDate();
+    filtersInput();
+};
+
+const sortDate = () => {
+    document.querySelector(".sort-date").addEventListener("click", () => {
+        sort == "asc" ? (sort = "desc") : (sort = "asc");
+        getPosts();
+    });
+};
+
+const filtersInput = () => {
+    const categoryListNode = document.querySelector(".category-list");
+    const cats = categoryListNode.querySelectorAll("input");
+    cats.forEach((c) => {
+        c.addEventListener("click", () => {
+            if (c.checked) {
+                filtersArray.push(c.value);
+                getPosts();
+            } else {
+                const index = filtersArray.indexOf(c.value);
+                filtersArray.splice(index, 1);
+                getPosts();
+            }
+        });
+    });
+    return filtersArray;
+};
+
 const showPosts = (posts) => {
-    contentNode.innerHTML = ``;
-    const articlesNode = document.createElement("div");
-    articlesNode.classList.add("articles");
+    const articlesNode = document.querySelector(".articles");
+    articlesNode.innerHTML = ``;
     //if data
     if (posts.length != 0) {
         //if multiple data
@@ -51,10 +127,9 @@ const showPosts = (posts) => {
             articlesNode.append(post);
         }
     } else {
-        //method to create a no data indicator
+        //NO DATA
         console.log("no data to show");
     }
-    contentNode.append(articlesNode);
 };
 
 const createPost = (p) => {
@@ -95,6 +170,7 @@ const createPost = (p) => {
 };
 
 getPosts();
+showFilters();
 
 //Show popUp (must be improved)
 if (params.get("p") == "create") {

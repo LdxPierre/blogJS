@@ -36,6 +36,10 @@ form {
             resize: none;
         }
     }
+    .formBtn {
+        display: flex;
+        gap: 5px;
+    }
     .errors {
         grid-column: 1 / span 2;
         font-size: 1.5rem;
