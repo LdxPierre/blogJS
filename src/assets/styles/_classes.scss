@@ -109,3 +109,97 @@ a.btn {
         }
     }
 }
+.modal {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    background: rgb(0, 0, 0, 0.75);
+    height: 100%;
+    width: 100%;
+    .modal-body {
+        width: 500px;
+        height: 250px;
+        display: grid;
+        grid:
+            "header" 20%
+            "content" 1fr
+            "footer" 20%;
+        background: var(--light);
+        border-radius: 5px;
+        border: 1px solid black;
+        .modal-title {
+            grid-area: header;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+            border-bottom: 1px solid black;
+            .modal-title-text {
+                font-size: 2rem;
+                font-weight: 700;
+            }
+            .modal-close {
+                cursor: pointer;
+                border: 1px solid var(--danger);
+                color: var(--danger);
+                border-radius: 5px;
+                height: 30px;
+                width: 30px;
+                background-color: var(--light);
+                &:active {
+                    border: var(--danger-secondary);
+                    background-color: var(--danger-secondary);
+                    color: var(--light);
+                }
+                svg {
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+        }
+        .modal-content {
+            grid-area: content;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+        .modal-footer {
+            grid-area: footer;
+            display: flex;
+            justify-content: end;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 0 0 5px 5px;
+            border-top: 1px solid black;
+            .modal-cancel {
+                cursor: pointer;
+                background-color: var(--blue);
+                padding: 5px 15px;
+                border: 0;
+                color: white;
+                border-radius: 5px;
+                &:active {
+                    background-color: var(--blue-secondary);
+                }
+            }
+            .modal-confirm {
+                cursor: pointer;
+                background-color: var(--danger);
+                padding: 5px 15px;
+                border: 0;
+                color: var(--light);
+                font-weight: 700;
+                border-radius: 5px;
+                &:active {
+                    background-color: var(--danger-secondary);
+                    color: var(--light);
+                }
+            }
+        }
+    }
+}

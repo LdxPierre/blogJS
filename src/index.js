@@ -3,6 +3,7 @@ import "./assets/styles/styles.scss";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import * as popUp from "./assets/javascript/popup.js";
+import * as modal from "./assets/javascript/modal.js";
 
 const params = new URL(document.location).searchParams;
 const contentNode = document.querySelector(".content");
@@ -156,7 +157,12 @@ const createPost = (p) => {
     btnDelete.setAttribute("class", "btn btn-danger btn-delete");
     btnDelete.innerHTML = `Delete`;
     btnDelete.addEventListener("click", () => {
-        deletePost(p._id);
+        modal.showModal(
+            "Confirmer la suppression",
+            `Confirmer la suppression de l'article \"${p.title}\" ?`,
+            deletePost,
+            p._id
+        );
     });
     //editBtn
     const btnEdit = document.createElement("a");
