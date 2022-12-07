@@ -117,11 +117,11 @@ header {
             display: none;
             &.show {
                 display: flex;
-                position: absolute;
+                position: fixed;
                 top: 0;
                 left: 0;
                 background-color: var(--secondary);
-                min-height: 100vh;
+                min-height: 100%;
                 width: 500px;
                 max-width: 90%;
                 padding: 10px;

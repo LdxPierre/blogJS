@@ -9,6 +9,7 @@ const params = new URL(document.location).searchParams;
 const contentNode = document.querySelector(".content");
 let filtersArray = [];
 let sort = "desc";
+let categoryShow = false;
 
 //show all posts
 const getPosts = async () => {
@@ -48,10 +49,6 @@ const showFilters = () => {
     const filtersNode = document.createElement("div");
     filtersNode.classList.add("filters");
     filtersNode.innerHTML = `
-        <div class="filter-select">
-            <span class="sort-date">Sort by Date</span>
-            <span class="filter-category">Filter by Category</span>
-        </div>
         <div class="category-list">
             <label for="catA">
                 Category A
@@ -71,26 +68,58 @@ const showFilters = () => {
             </label>
         </div>
     `;
+
+    const filterSelectNode = document.createElement("div");
+    filterSelectNode.classList.add("filter-select");
+
+    const sortDateNode = sortDate();
+    const filterCategoryNode = filterCategory();
+
+    filterSelectNode.prepend(sortDateNode, filterCategoryNode);
+    filtersNode.prepend(filterSelectNode);
     contentNode.prepend(filtersNode);
 
-    filtersNode
-        .querySelector(".filter-category")
-        .addEventListener("click", () => {
-            const categoryListNode = document.querySelector(".category-list");
-            const show = categoryListNode.classList.contains("show");
-            show
-                ? categoryListNode.classList.remove("show")
-                : categoryListNode.classList.add("show");
-        });
-    sortDate();
     filtersInput();
 };
 
 const sortDate = () => {
-    document.querySelector(".sort-date").addEventListener("click", () => {
-        sort == "asc" ? (sort = "desc") : (sort = "asc");
+    const sortDateNode = document.createElement("span");
+    sortDateNode.classList.add("sort-date");
+    sortDateNode.innerHTML = `
+    <span>Sort by date</span>
+    <span class='filter-ico'><i class="fa-solid fa-angle-up"></i></span>
+    `;
+    sortDateNode.addEventListener("click", () => {
+        sort == "desc" ? (sort = "asc") : (sort = "desc");
+        sort == "desc"
+            ? sortDateNode.setAttribute("class", "sort-date up")
+            : sortDateNode.setAttribute("class", "sort-date down");
         getPosts();
     });
+    return sortDateNode;
+};
+
+const filterCategory = () => {
+    const filterCategoryNode = document.createElement("span");
+    filterCategoryNode.classList.add("filter-category");
+    filterCategoryNode.innerHTML = `
+    Filter by category
+    <span class='filter-ico'><i class="fa-solid fa-angle-up"></i></span>
+    `;
+    filterCategoryNode.addEventListener("click", () => {
+        const categoryListNode = document.querySelector(".category-list");
+        if (!categoryShow) {
+            categoryListNode.classList.add("show");
+            filterCategoryNode.setAttribute("class", "filter-category down");
+            categoryShow = !categoryShow;
+        } else {
+            categoryListNode.classList.remove("show");
+            filterCategoryNode.setAttribute("class", "filter-category up");
+            categoryShow = !categoryShow;
+        }
+    });
+
+    return filterCategoryNode;
 };
 
 const filtersInput = () => {
@@ -157,12 +186,13 @@ const createPost = (p) => {
     btnDelete.setAttribute("class", "btn btn-danger btn-delete");
     btnDelete.innerHTML = `Delete`;
     btnDelete.addEventListener("click", () => {
-        modal.showModal(
-            "Confirmer la suppression",
-            `Confirmer la suppression de l'article \"${p.title}\" ?`,
-            deletePost,
-            p._id
-        );
+        modal.showModal({
+            content: `Confirm delete of ${p.title} ? `,
+            footer: {
+                method: deletePost,
+                params1: p._id,
+            },
+        });
     });
     //editBtn
     const btnEdit = document.createElement("a");
@@ -177,6 +207,10 @@ const createPost = (p) => {
 
 getPosts();
 showFilters();
+
+const test = (param) => {
+    console.log(param);
+};
 
 //Show popUp (must be improved)
 if (params.get("p") == "create") {

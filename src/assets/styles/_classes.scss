@@ -1,3 +1,5 @@
+@import "_media-queries";
+
 a.btn {
     display: flex;
     justify-content: center;
@@ -121,12 +123,13 @@ a.btn {
     width: 100%;
     .modal-body {
         width: 500px;
+        max-width: 95%;
         height: 250px;
         display: grid;
         grid:
-            "header" 20%
+            "header" auto
             "content" 1fr
-            "footer" 20%;
+            "footer" auto;
         background: var(--light);
         border-radius: 5px;
         border: 1px solid black;
@@ -167,6 +170,7 @@ a.btn {
             align-items: center;
             justify-content: center;
             padding: 10px;
+            font-size: 2rem;
         }
         .modal-footer {
             grid-area: footer;
@@ -175,11 +179,12 @@ a.btn {
             gap: 10px;
             padding: 10px;
             border-radius: 0 0 5px 5px;
-            border-top: 1px solid black;
             .modal-cancel {
                 cursor: pointer;
+                font-size: 1.5rem;
                 background-color: var(--blue);
-                padding: 5px 15px;
+                padding: 10px;
+                width: 100px;
                 border: 0;
                 color: white;
                 border-radius: 5px;
@@ -189,8 +194,10 @@ a.btn {
             }
             .modal-confirm {
                 cursor: pointer;
+                font-size: 1.5rem;
+                width: 100px;
                 background-color: var(--danger);
-                padding: 5px 15px;
+                padding: 10px;
                 border: 0;
                 color: var(--light);
                 font-weight: 700;
@@ -198,6 +205,22 @@ a.btn {
                 &:active {
                     background-color: var(--danger-secondary);
                     color: var(--light);
+                }
+            }
+        }
+    }
+    @include sm {
+        .modal-body {
+            .modal-footer {
+                flex-direction: column;
+                gap: 5px;
+                .modal-cancel {
+                    width: 100%;
+                    height: 50px;
+                }
+                .modal-confirm {
+                    width: 100%;
+                    height: 50px;
                 }
             }
         }
