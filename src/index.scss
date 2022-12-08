@@ -1,95 +1,74 @@
-@import "./assets/styles/styles";
+@import "./assets/styles/media-queries";
 
+.content {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
 .filters {
-    max-width: 1000px;
-    margin: 0 auto 10px auto;
-    .filter-select {
+    display: flex;
+    flex-direction: column;
+    width: 20rem;
+    gap: 1rem;
+    .sortDate,
+    .filterCategories {
         display: flex;
-        justify-content: center;
-        .sort-date {
+        justify-content: space-between;
+        padding: 1rem;
+        border: 1px solid black;
+        border-radius: 5px;
+        cursor: pointer;
+        &:hover {
             background-color: var(--primary);
-            border-radius: 5px 0 0 5px;
-            border: 1px solid black;
-            color: var(--light);
-            padding: 10px 15px;
-            cursor: pointer;
-            &:active {
-                background-color: var(--secondary);
-            }
+            color: white;
+            transition: background-color 0.5s;
         }
-        .filter-category {
-            background-color: var(--primary);
-            border-radius: 0 5px 5px 0;
-            border: 1px solid black;
-            border-left: 0px solid black;
-            color: var(--light);
-            padding: 10px 15px;
-            cursor: pointer;
-            &:active {
-                background-color: var(--secondary);
-            }
+        &:active {
+            background-color: var(--secondary);
         }
-    }
-    .category-list {
-        margin: 20px 0;
-        display: none;
-        justify-content: center;
-        label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 15px;
-            background-color: var(--primary);
-            color: var(--light);
-            cursor: pointer;
-            &:active {
-                background-color: var(--secondary);
-            }
-        }
-        &.show {
-            display: flex;
-        }
-        @include sm {
-            flex-direction: column;
-            align-items: center;
-            label {
-                justify-content: center;
-                width: 200px;
-            }
-        }
-    }
-    .up {
-        .filter-ico {
+        .ico {
+            height: 20px;
+            width: 20px;
             svg {
-                margin-left: 5px;
-                animation: filterUp 0.2s;
-
-                @keyframes filterUp {
-                    from {
-                        transform: rotate(180deg);
-                    }
-                    to {
-                        transition: rotate(0);
-                    }
-                }
+                height: 100%;
+                width: 100%;
             }
         }
-    }
-    .down {
-        .filter-ico {
-            svg {
-                margin-left: 5px;
+        &.on {
+            background-color: var(--primary);
+            color: var(--light);
+            .ico > svg {
                 transform: rotate(180deg);
-                animation: filterDown 0.2s;
-
-                @keyframes filterDown {
-                    from {
-                        transform: rotate(0);
-                    }
-                    to {
-                        transform: rotate(180deg);
-                    }
-                }
+                transition: transform 0.5s;
+            }
+        }
+        &.off > .ico > svg {
+            transform: rotate(0);
+            transition: transform 0.5s;
+        }
+    }
+    ul {
+        display: none;
+        &.show {
+            display: block;
+        }
+        li {
+            margin: 0 0 0.5rem 2rem;
+            padding: 0.5rem;
+            border: 1px solid black;
+            border-radius: 5px;
+            cursor: pointer;
+            &:hover {
+                background-color: var(--primary);
+                color: white;
+                transition: background-color 0.5s;
+            }
+            &:active {
+                background-color: var(--secondary);
+            }
+            &.select {
+                background-color: var(--primary);
+                color: white;
             }
         }
     }
@@ -98,8 +77,7 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
-    max-width: 1000px;
-    margin: auto;
+    width: 1000px;
     .article {
         background-color: var(--white);
         border-radius: 5px;
