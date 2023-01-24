@@ -6,9 +6,9 @@ const { dirname } = require("path");
 
 module.exports = {
     entry: {
-        main: path.join(__dirname, "src/index.js"),
-        form: path.join(__dirname, "src/form/form.js"),
-        topbar: path.join(__dirname, "src/assets/javascript/topbar.js"),
+        main: path.join(__dirname, "src/index.ts"),
+        form: path.join(__dirname, "src/form/form.ts"),
+        topbar: path.join(__dirname, "src/assets/javascript/topbar.ts"),
     },
     output: {
         path: path.join(__dirname, "dist"),
@@ -17,9 +17,9 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js/,
+                test: /\.tsx?$/,
                 exclude: /(node_modules)/,
-                use: ["babel-loader"],
+                use: ["ts-loader"],
             },
             {
                 test: /\.(sass|scss|css)$/i,
@@ -27,9 +27,13 @@ module.exports = {
             },
             {
                 test: /\.(svg|eot|woff|woff2|ttf)$/,
+                exclude: /(node_modules)/,
                 use: ["file-loader"],
             },
         ],
+    },
+    resolve: {
+        extensions: [".tsx", ".ts", ".js"],
     },
     plugins: [
         new CleanWebpackPlugin(),
