@@ -27,11 +27,12 @@ const getArticle = async (id:string):Promise<void> => {
 };
 
 const articleToForm = (article:Article):void => {
+    const imgInput:HTMLInputElement = form.querySelector("#authorImg")!;
+    article.authorImg === "https://cdn-icons-png.flaticon.com/512/1246/1246351.png" ? imgInput.value = "" : imgInput.value = article.authorImg;
     (<HTMLInputElement>form.querySelector("#title")).value = article.title;
     (<HTMLInputElement>form.querySelector("#category")).value = article.category;
     (<HTMLInputElement>form.querySelector("#author")).value = article.author;
     (<HTMLInputElement>form.querySelector("#body")).value = article.content;
-    (<HTMLInputElement>form.querySelector("#authorImg")).value = article.authorImg;
 };
 
 const formIsValid = (formArticle:Article) => {
@@ -41,8 +42,7 @@ const formIsValid = (formArticle:Article) => {
         return false;
     } else {
         if (!formArticle.authorImg) {
-            formArticle.authorImg =
-                "https://cdn-icons-png.flaticon.com/512/1246/1246351.png?w=826&t=st=1669815469~exp=1669816069~hmac=d2170786e55bc69ccaf6f8c1e4bc84b1da0249e0738aeaa84b59999adc2a20c0";
+            formArticle.authorImg = "https://cdn-icons-png.flaticon.com/512/1246/1246351.png"
         }
         return true;
     }
@@ -50,11 +50,11 @@ const formIsValid = (formArticle:Article) => {
 
 const newArticle = async (formArticle:Article, method:'POST'|'PATCH') => {
     try {
-        const url: string = 'https://restapi.fr/api/ormide/';
+        let url: string = 'https://restapi.fr/api/ormide/';
         const article: string = JSON.stringify(formArticle);
         editID
-            ? (url+editID)
-            : undefined;
+        ? url = url+editID
+        : undefined;
         const response: Response = await fetch(url, {
             method: method,
             body: article,

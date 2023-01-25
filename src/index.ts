@@ -8,48 +8,51 @@ import { showModal } from "./assets/javascript/modal";
 const params: URLSearchParams = new URL(document.location.href).searchParams;
 const categoriesListElements = document.querySelector(".categoriesList")!;
 interface Article {
-    _id?: number,
-    title:string,
-    author:string,
-    authorImg: string,
-    category:string,
-    content: string,
-    createdAt?: string,
-
+    _id?: number;
+    title: string;
+    author: string;
+    authorImg: string;
+    category: string;
+    content: string;
+    createdAt?: string;
 }
 let articles: Article[] = [];
-let filter:string = "";
-let sort:string = "createdAt:desc";
-let categoryShow:boolean = false;
-const resetFiltersElement:HTMLSpanElement = document.querySelector('.filtersReset')!;
-const filtersElements:HTMLDivElement = document.querySelector('.filters')!;
-
+let filter: string = "";
+let sort: string = "createdAt:desc";
+let categoryShow: boolean = false;
+const resetFiltersElement: HTMLSpanElement =
+    document.querySelector(".filtersReset")!;
+const filtersElements: HTMLDivElement = document.querySelector(".filters")!;
 
 //show all articles
-const getArticles = async ():Promise<void> => {
+const getArticles = async (): Promise<void> => {
+    articles = [];
     try {
         const response: Response = await fetch(
-            `https://restapi.fr/api/ormide?sort=${sort}`
+            `https://restapi.fr/api/ormide?limit=20&sort=${sort}`
         );
-        const body:any = await response.json();
-        if (body.hasOwnProperty('content')) {
-            articles[0] = body
+        const body: any = await response.json();
+        if (body.hasOwnProperty("content")) {
+            articles[0] = body;
         } else {
             articles = body;
         }
         showArticles();
         categoriesMenu();
-    } catch (e:any) {
+    } catch (e: any) {
         console.error(e);
     }
 };
 
 //delete article[id]
-const deleteArticle = async (id:number):Promise<void> => {
+const deleteArticle = async (id: number): Promise<void> => {
     try {
-        const response:Response = await fetch(`https://restapi.fr/api/ormide/${id}`, {
-            method: "DELETE",
-        });
+        const response: Response = await fetch(
+            `https://restapi.fr/api/ormide/${id}`,
+            {
+                method: "DELETE",
+            }
+        );
         getArticles();
         showPopUp("success", "Article has been deleted");
     } catch (e) {
@@ -58,33 +61,38 @@ const deleteArticle = async (id:number):Promise<void> => {
 };
 
 //create categoryMenu
-const categoriesMenu = ():void => {
+const categoriesMenu = (): void => {
     if (articles.length === 0) {
         categoriesListElements.innerHTML = ``;
     } else if (articles.length != 0) {
         let categoriesArray: any[][];
         const categories: {} = articles.reduce((acc, article) => {
-            const cat:string = article.category;
+            const cat: string = article.category;
             if (acc.hasOwnProperty(cat)) {
-                let nbr:number = Object.getOwnPropertyDescriptor(acc, cat)!.value;
-                Object.defineProperty(acc, cat, {value: nbr+1});
+                let nbr: number = Object.getOwnPropertyDescriptor(
+                    acc,
+                    cat
+                )!.value;
+                Object.defineProperty(acc, cat, { value: nbr + 1 });
             } else {
                 Object.defineProperty(acc, cat, {
-                        value:1,
-                        writable:true,
-                        enumerable:true,
-                    }
-                )
+                    value: 1,
+                    writable: true,
+                    enumerable: true,
+                });
             }
             return acc;
         }, {});
         categoriesArray = Object.keys(categories)
-        .map((category) => {
-            const categoryValue:any = Object.getOwnPropertyDescriptor(categories, category)!.value;
-            return [category, categoryValue];
-        })
-        .sort((c1, c2) => c1[0].localeCompare(c2[0]));
-        
+            .map((category) => {
+                const categoryValue: any = Object.getOwnPropertyDescriptor(
+                    categories,
+                    category
+                )!.value;
+                return [category, categoryValue];
+            })
+            .sort((c1, c2) => c1[0].localeCompare(c2[0]));
+
         createLiElements(categoriesArray);
     } else {
         createLiElements([[articles[0].category, 1]]);
@@ -92,7 +100,7 @@ const categoriesMenu = ():void => {
 };
 
 //create <li> foreah category
-const createLiElements = (categoriesArray:any[]):void => {
+const createLiElements = (categoriesArray: any[]): void => {
     categoriesListElements.innerHTML = ``;
     const liElements: HTMLLIElement[] = categoriesArray.map((element) => {
         const li: HTMLLIElement = document.createElement("li");
@@ -103,17 +111,18 @@ const createLiElements = (categoriesArray:any[]):void => {
                 li.classList.remove("filter-select");
                 filter = "";
             } else {
-                const filtersElements: NodeListOf<HTMLLIElement> = document.querySelectorAll('.filter-select');
-                filtersElements.forEach(e=>{
-                    e.classList.remove('filter-select')
-                })
+                const filtersElements: NodeListOf<HTMLLIElement> =
+                    document.querySelectorAll(".filter-select");
+                filtersElements.forEach((e) => {
+                    e.classList.remove("filter-select");
+                });
                 li.classList.add("filter-select");
                 filter = element[0];
             }
             if (filter != "" || sort != "createdAt:desc") {
-                showResetFilters(true)
+                showResetFilters(true);
             } else {
-                showResetFilters(false)
+                showResetFilters(false);
             }
             showArticles();
         });
@@ -123,15 +132,17 @@ const createLiElements = (categoriesArray:any[]):void => {
 };
 
 //show resetFilters
-const showResetFilters = (boolean:boolean):void => {
+const showResetFilters = (boolean: boolean): void => {
     if (boolean) {
-        resetFiltersElement.classList.remove('hidden');
+        resetFiltersElement.classList.remove("hidden");
     } else {
-        resetFiltersElement.classList.add('hidden')
+        resetFiltersElement.classList.add("hidden");
     }
-}
+};
 
-const filterEventListener = ():void => {
+//event listener of categories & sort
+const filterEventListener = (): void => {
+    //sort date
     const sortDateNode: HTMLSpanElement = document.querySelector(".sortDate")!;
     sortDateNode.addEventListener("click", () => {
         sort == "createdAt:asc"
@@ -141,23 +152,32 @@ const filterEventListener = ():void => {
             ? sortDateNode.setAttribute("class", "sortDate on")
             : sortDateNode.setAttribute("class", "sortDate off");
         if (filter != "" || sort != "createdAt:desc") {
-            showResetFilters(true)
+            showResetFilters(true);
         } else {
-            showResetFilters(false)
+            showResetFilters(false);
         }
         getArticles();
     });
 
-    const filterCategoriesMenuElement: HTMLSpanElement = document.querySelector(".filterCategories")!;
-    const filterCategoriesListElements: HTMLUListElement = document.querySelector(".categoriesList")!;
+    //categories
+    const filterCategoriesMenuElement: HTMLSpanElement =
+        document.querySelector(".filterCategories")!;
+    const filterCategoriesListElements: HTMLUListElement =
+        document.querySelector(".categoriesList")!;
     filterCategoriesMenuElement.addEventListener("click", () => {
         if (!categoryShow) {
-            filterCategoriesMenuElement.setAttribute("class", "filterCategories on");
+            filterCategoriesMenuElement.setAttribute(
+                "class",
+                "filterCategories on"
+            );
             filterCategoriesListElements.classList.add("show");
             categoryShow = !categoryShow;
             showCurrentFilter(false);
         } else {
-            filterCategoriesMenuElement.setAttribute("class", "filterCategories off");
+            filterCategoriesMenuElement.setAttribute(
+                "class",
+                "filterCategories off"
+            );
             filterCategoriesListElements.classList.remove("show");
             categoryShow = !categoryShow;
             showCurrentFilter(true);
@@ -165,30 +185,33 @@ const filterEventListener = ():void => {
     });
 };
 
-const showCurrentFilter = (bool:boolean):void => {
-    if (bool && filter != '') {
-        const currentFilter:HTMLSpanElement = document.createElement('span');
-        currentFilter.classList.add('currentFilter')
-        currentFilter.innerHTML = `${filter}`
+//show filtered category when list is hidden
+const showCurrentFilter = (bool: boolean): void => {
+    if (bool && filter != "") {
+        const currentFilter: HTMLSpanElement = document.createElement("span");
+        currentFilter.classList.add("currentFilter");
+        currentFilter.innerHTML = `${filter}`;
         resetFiltersElement.before(currentFilter);
-        currentFilter.addEventListener('click', ()=>{
-            filter = '';
+        currentFilter.addEventListener("click", () => {
+            filter = "";
             showArticles();
             filtersElements.removeChild(currentFilter);
-            if (sort === 'createdAt:desc') {
+            if (sort === "createdAt:desc") {
                 showResetFilters(false);
             }
-        })
+        });
     } else {
-        const currentFilter:HTMLSpanElement | null = document.querySelector('.currentFilter');
-        currentFilter ? filtersElements.removeChild(currentFilter!) : undefined ;
+        const currentFilter: HTMLSpanElement | null =
+            document.querySelector(".currentFilter");
+        currentFilter ? filtersElements.removeChild(currentFilter!) : undefined;
     }
-}
+};
 
-const showArticles = ():void => {
-    const articlesElement: HTMLDivElement = document.querySelector(".articles")!;
+//show every articles after filter
+const showArticles = (): void => {
+    const articlesElement: HTMLDivElement =
+        document.querySelector(".articles")!;
     articlesElement.innerHTML = ``;
-
     const articlesFilter: Article[] = articles.filter((article) => {
         if (filter) {
             return article.category === filter;
@@ -198,18 +221,20 @@ const showArticles = ():void => {
     });
 
     if (articlesFilter.length) {
-            articlesFilter.map((a) => {
-                const articleElement: HTMLDivElement = createArticle(a);
-                articlesElement.append(articleElement);
-            });
+        articlesFilter.map((a) => {
+            const articleElement: HTMLDivElement = createArticle(a);
+            articlesElement.append(articleElement);
+        });
     } else {
-        const noArticleElement: HTMLParagraphElement = document.createElement('p');
-        noArticleElement.innerText = 'No Data To Show'
+        const noArticleElement: HTMLParagraphElement =
+            document.createElement("p");
+        noArticleElement.innerText = "No Data To Show";
         articlesElement.append(noArticleElement);
     }
 };
 
-const createArticle = (a:Article): HTMLDivElement => {
+//create article's elements
+const createArticle = (a: Article): HTMLDivElement => {
     const date: Date = new Date(a.createdAt!);
     const dateIso: string = date.toLocaleString();
     //title, cat, content
@@ -219,7 +244,7 @@ const createArticle = (a:Article): HTMLDivElement => {
         <h4 class="articleCategory">${a.category}</h4>
         <p class="articleContent">${a.content}</p>`;
     //author, date, btn
-    const articleInfosElement:HTMLDivElement = document.createElement("div");
+    const articleInfosElement: HTMLDivElement = document.createElement("div");
     articleInfosElement.classList.add("articleInfos");
     articleInfosElement.innerHTML = `
             <img class="articleAuthorImg" src="${a.authorImg}" alt="${a.author}"/>
@@ -229,7 +254,7 @@ const createArticle = (a:Article): HTMLDivElement => {
             `;
     articleElement.append(articleInfosElement);
     //btnDelete
-    const btnDelete:HTMLButtonElement = document.createElement("button");
+    const btnDelete: HTMLButtonElement = document.createElement("button");
     btnDelete.setAttribute("class", "btn btn-danger btn-delete");
     btnDelete.innerHTML = `Delete`;
     btnDelete.addEventListener("click", () => {
@@ -252,21 +277,25 @@ const createArticle = (a:Article): HTMLDivElement => {
     return articleElement;
 };
 
-resetFiltersElement.addEventListener('click', ()=>{
-    document.querySelector('.sortDate')!.classList.remove('on');
-    document.querySelector('.filterCategories')!.classList.replace("on", 'off');
-    document.querySelector(".categoriesList")!.classList.remove('show')
+//reset all fiters and sort if active
+resetFiltersElement.addEventListener("click", () => {
+    document.querySelector(".sortDate")!.classList.remove("on");
+    document.querySelector(".filterCategories")!.classList.replace("on", "off");
+    document.querySelector(".categoriesList")!.classList.remove("show");
     categoryShow = false;
-    filter = '';
-    sort = 'createdAt:desc'
-    resetFiltersElement.classList.add('hidden');
-    const currentFilter:HTMLSpanElement | null = document.querySelector('.currentFilter');
-    currentFilter ? filtersElements.removeChild(currentFilter) : undefined ;
-    const filterSelect = document.querySelectorAll('.filter-select');
-    filterSelect.forEach(e=>{e.classList.remove('filter-select')});
-    console.log(filterSelect)
+    filter = "";
+    sort = "createdAt:desc";
+    resetFiltersElement.classList.add("hidden");
+    const currentFilter: HTMLSpanElement | null =
+        document.querySelector(".currentFilter");
+    currentFilter ? filtersElements.removeChild(currentFilter) : undefined;
+    const filterSelect = document.querySelectorAll(".filter-select");
+    filterSelect.forEach((e) => {
+        e.classList.remove("filter-select");
+    });
+    console.log(filterSelect);
     getArticles();
-})
+});
 
 getArticles();
 filterEventListener();
