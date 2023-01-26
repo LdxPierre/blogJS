@@ -109,7 +109,9 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
-    max-width: 1000px;
+    width:100%;
+    max-width: 80rem;
+
     .article {
         background-color: var(--white);
         border-radius: 5px;

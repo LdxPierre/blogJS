@@ -226,12 +226,51 @@ const showArticles = (): void => {
             articlesElement.append(articleElement);
         });
     } else {
-        const noArticleElement: HTMLParagraphElement =
-            document.createElement("p");
+        const noArticleElement: HTMLParagraphElement = document.createElement("p");
+        noArticleElement.setAttribute('class', 'noDataText');
         noArticleElement.innerText = "No Data To Show";
-        articlesElement.append(noArticleElement);
+        const createFakeDataButtonElement: HTMLButtonElement = document.createElement('button');
+        createFakeDataButtonElement.setAttribute('class', 'noDataBtn btn btn-primary');
+        createFakeDataButtonElement.innerText = `Create 50 fake articles`;
+        createFakeDataButtonElement.addEventListener('click', fakeData);
+        articlesElement.append(noArticleElement, createFakeDataButtonElement);
     }
 };
+
+//create 50 fake articles
+const fakeData = async ():Promise<void> => {
+    let y: number = 0;
+    const fakeCategory: string[] = ['Voyage', 'Travail', 'Cuisine', 'Peinture', 'Jeux Vidéos']
+    for(let i=0; i<50; i++) {
+        y = Math.floor(i/10)
+        const fakeArticle:Article = {
+            title: `Article n°${i+1}`,
+            category: fakeCategory[y],
+            author: 'Moi',
+            authorImg: 'https://randomuser.me/api/portraits/men/64.jpg',
+            content: 'Excepteur exercitation in magna do. Qui sunt voluptate aute pariatur exercitation ut et incididunt cillum dolore ea velit fugiat voluptate. In nostrud eiusmod elit magna id.'
+        }
+        await postFakeData(fakeArticle);
+    }
+    getArticles();
+}
+
+//postFakeData
+const postFakeData = async (fakeArticle: Article):Promise<void> => {
+    try {
+        const article:string = JSON.stringify(fakeArticle)
+        const response: Response = await fetch('https://restapi.fr/api/ormide/', {
+            method: 'POST',
+            body: article,
+            headers: {
+                "content-type": "application/json"
+            }
+        });
+    }
+    catch(e) {
+        console.error(e)
+    }
+}
 
 //create article's elements
 const createArticle = (a: Article): HTMLDivElement => {
