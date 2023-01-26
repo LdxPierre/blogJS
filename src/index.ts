@@ -29,7 +29,7 @@ const getArticles = async (): Promise<void> => {
     articles = [];
     try {
         const response: Response = await fetch(
-            `https://restapi.fr/api/ormide?limit=20&sort=${sort}`
+            `https://restapi.fr/api/ormide?sort=${sort}`
         );
         const body: any = await response.json();
         if (body.hasOwnProperty("content")) {
@@ -332,7 +332,6 @@ resetFiltersElement.addEventListener("click", () => {
     filterSelect.forEach((e) => {
         e.classList.remove("filter-select");
     });
-    console.log(filterSelect);
     getArticles();
 });
 
