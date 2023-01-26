@@ -231,7 +231,7 @@ const showArticles = (): void => {
         noArticleElement.innerText = "No Data To Show";
         const createFakeDataButtonElement: HTMLButtonElement = document.createElement('button');
         createFakeDataButtonElement.setAttribute('class', 'noDataBtn btn btn-primary');
-        createFakeDataButtonElement.innerText = `Create 50 fake articles`;
+        createFakeDataButtonElement.innerText = `Create 33 fake articles`;
         createFakeDataButtonElement.addEventListener('click', fakeData);
         articlesElement.append(noArticleElement, createFakeDataButtonElement);
     }
@@ -241,7 +241,7 @@ const showArticles = (): void => {
 const fakeData = async ():Promise<void> => {
     let y: number = 0;
     const fakeCategory: string[] = ['Voyage', 'Travail', 'Cuisine', 'Peinture', 'Jeux Vidéos']
-    for(let i=0; i<50; i++) {
+    for(let i=0; i<33; i++) {
         y = Math.floor(i/10)
         const fakeArticle:Article = {
             title: `Article n°${i+1}`,
