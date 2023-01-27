@@ -248,7 +248,7 @@ const fakeData = async ():Promise<void> => {
             category: fakeCategory[y],
             author: 'Moi',
             authorImg: 'https://randomuser.me/api/portraits/men/64.jpg',
-            content: 'Excepteur exercitation in magna do. Qui sunt voluptate aute pariatur exercitation ut et incididunt cillum dolore ea velit fugiat voluptate. In nostrud eiusmod elit magna id.'
+            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nisi scelerisque eu ultrices. Lacus sed turpis tincidunt id aliquet risus feugiat. Risus quis varius quam quisque id diam vel quam elementum. Tincidunt id aliquet risus feugiat in ante metus dictum. Suspendisse faucibus interdum posuere lorem ipsum dolor sit amet. Eget magna fermentum iaculis eu non. Eget nunc scelerisque viverra mauris in aliquam sem. Diam sit amet nisl suscipit adipiscing. Varius vel pharetra vel turpis nunc eget lorem dolor sed. Imperdiet proin fermentum leo vel orci. Laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt.`
         }
         await postFakeData(fakeArticle);
     }
