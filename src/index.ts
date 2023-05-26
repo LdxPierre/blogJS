@@ -1,6 +1,4 @@
 import "./index.scss";
-import "@fortawesome/fontawesome-free/css/all.css";
-import "@fortawesome/fontawesome-free/js/all.js";
 import { showPopUp } from "./assets/javascript/popup";
 import { showModal } from "./assets/javascript/modal";
 
@@ -290,7 +288,6 @@ const createArticle = (a: Article): HTMLDivElement => {
             <img class="articleAuthorImg" src="${a.authorImg}" alt="${a.author}"/>
             <h5 class="articleDate">${dateIso}</h5>
             <h4 class="articleAuthor">${a.author}</h4>
-            <button class='btn btn-read'>Read</button>
             `;
 	articleElement.append(articleInfosElement);
 	//btnDelete
